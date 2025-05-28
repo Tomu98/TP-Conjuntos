@@ -156,7 +156,7 @@ def bisiestro(anios):
         if(anio%4==0 and anio%100!=0 or  anio%400==0): #si es divisible por 400 también lo es por 4 y por 100.
             print("Tenemos un año especial")
             break #para que no imprima varias veces si hay más de un año bisiesto
-bisiestro(anio)
+bisiestro(anios)
 
 #e. Calcular el producto cartesiano entre el conjunto de años y el conjunto de edades actuales.
 edades= []
