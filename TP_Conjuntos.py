@@ -19,11 +19,7 @@ def analizar_dni_individual(dni, conjunto):
         else:
             print(f" • Dígito {digito}: {frecuencia} vez")
     
-    # Diversidad numérica alta
-    # (Podriamos colocarlo en la información de una mejor manera...)
-    if len(conjunto) > 6:
-        print("-> Diversidad numérica alta") # Acá no sé si quieren que se ponga más opciones, como "frecuencia baja/media".
-
+    
 
 
 def dni_conjuntos():
@@ -115,8 +111,64 @@ def dni_conjuntos():
     print(f" • Diferencia (B - A): {sorted(set2.difference(set1))}")
     print(f" • Diferencia simétrica (A △ B): {sorted(set1.symmetric_difference(set2))}")
 
+
+
+    # Expresiones lógicas
+    # Diversidad numérica alta
+    print("\n------------ Evaluaciones adicionales ------------")
+    diversidad_numerica_alta = True
+    for conjunto in conjuntos:
+        if len(conjunto) < 5 :
+            diversidad_numerica_alta = False
+    
+    if diversidad_numerica_alta:
+        print("Diversidad numérica alta")
+
+    # Grupos sin ceros
+    grupo_sin_cero = True
+    for conjunto in conjuntos:
+        if "0" in conjunto:
+            grupo_sin_cero = False
+    
+    if grupo_sin_cero:
+        print("Grupo sin ceros")
+
+    #Evaluar si algún dígito aparece en todos los conjuntos, marcar como dígito común 
+    digitos_comunes = set.intersection(*conjuntos)  # Intersección de todos los conjuntos
+    if digitos_comunes:
+        print(f"Dígito(s) común(es) en todos los DNIs: {sorted(digitos_comunes)}")
+
+    #Dígito representativo: intersección exacta entre todos con un solo elemento
+
+    interseccion_total = set.intersection(*conjuntos)
+    if len(interseccion_total) == 1:
+        print(f" Dígito representativo del grupo: {list(interseccion_total)[0]}")
+    elif len(interseccion_total) > 1:
+        print(f"Hay múltiples dígitos comunes, no hay uno representativo: {sorted(interseccion_total)}")
+    else:
+        print(" No hay ningún dígito común en todos los DNIs.")
+
+    #Evaluar si hay más conjuntos con cantidad par de elementos que con cantidad impar,
+    #entonces se etiqueta como "grupo par".·   
+    pares = 0
+    impares = 0
+
+    for conjunto in conjuntos:
+        if len(conjunto) % 2 == 0:
+            pares += 1
+        else:
+            impares += 1
+
+    if pares > impares:
+        print("Grupo par: hay más conjuntos con cantidad par de elementos que impares.")
+    elif impares > pares:
+        print("Grupo impar: hay más conjuntos con cantidad impar de elementos que pares.")
+    else:
+        print("Grupos equilibrados: hay igual cantidad de conjuntos pares e impares.")
+
     # Mensajes finales
     print("\nGracias por usar el programa. ¡Hasta luego!.\n")
+
 
 dni_conjuntos()
 
@@ -149,7 +201,6 @@ print(f"Pares: {pares} Impares: {impares}")
 #c. Imprimir Grupo Z si todos somos > 2000
 if all(anio>2000 for anio in anios): #se pueden poner bucles dentro de condicionales :O. All asegura que todos los elementos de la lista sean > 2000
     print("Grupo Z")
-
 #d. Año bisiestro = tiene que ser divisible por 4 y NO ser divisible por 100, salvo que también sea divisible por 400. 
 def bisiestro(anios):
     for anio in anios:
