@@ -1,4 +1,4 @@
-from Func import dni_conjuntos, operaciones_anios_nacimiento
+from funciones import dni_conjuntos, operaciones_anios_nacimiento
 
 
 def mostrar_menu():
