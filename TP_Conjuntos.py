@@ -176,7 +176,7 @@ dni_conjuntos()
 
 
 
-
+#r
 # B. Operaciones con años de nacimiento
 #a. Ingreso de los años de nacimiento
 def anio_nacimiento():
