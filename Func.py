@@ -17,7 +17,7 @@ def analizar_dni_individual(dni, conjunto):
         else:
             print(f" • Dígito {digito}: {frecuencia} vez")
 
-
+#r
 def dni_conjuntos():
     """Función principal para manejar operaciones con DNIs y conjuntos."""
     dnis = []

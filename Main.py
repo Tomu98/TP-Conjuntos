@@ -15,7 +15,7 @@ def mostrar_menu():
     # Separa las opciones del menú
     print("-" * 60)
 
-
+#r
 def main():
     """Función principal del programa."""
     while True:
