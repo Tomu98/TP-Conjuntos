@@ -1,9 +1,11 @@
-# funciones.py
 # Archivo con todas las funciones para las operaciones con DNIs y años de nacimiento
-from datetime import date  # Importo date para obtener la fecha actual y calcular edades
+from datetime import date  # Date para obtener la fecha actual y calcular edades
+
+
+# A. Operaciones con DNIs
 def analizar_dni_individual(dni, conjunto):
-    """Función para analizar un DNI: la suma, frecuencias y diversidad de sus dígitos."""
-    
+    """Función para analizar un DNI: suma total de dígitos y frecuencia de cada uno."""
+
     # Suma total de dígitos
     suma_digitos = sum(int(d) for d in dni)
     print(f"Suma total de dígitos: {suma_digitos}")
@@ -12,24 +14,23 @@ def analizar_dni_individual(dni, conjunto):
     print("Frecuencia de cada dígito:")
     for digito in sorted(conjunto):
         frecuencia = dni.count(digito)
-        if frecuencia > 1:
-            print(f" • Dígito {digito}: {frecuencia} veces")
-        else:
-            print(f" • Dígito {digito}: {frecuencia} vez")
+        veces = "vez" if frecuencia == 1 else "veces"
+        print(f" • Dígito {digito}: {frecuencia} {veces}")
 
-#r
+
 def dni_conjuntos():
-    """Función principal para manejar operaciones con DNIs y conjuntos."""
+    """Función principal para manejar operaciones con DNIs y conjuntos de dígitos."""
     dnis = []
     conjuntos = []
 
     # Mensajes iniciales
-    print("\nIngrese entre 2 y 5 DNIs (7-8 dígitos cada uno)")
+    print("\nIngrese entre 2 y 5 DNIs (7-8 dígitos cada uno).")
 
     while len(dnis) < 5:
         dni_input = input(f"\nDNI #{len(dnis) + 1}: ")
 
-        if not dni_input.isdigit() or len(dni_input) < 7 or len(dni_input) > 8:
+        # Validación de DNI
+        if not dni_input.isdigit() or not 7 <= len(dni_input) <= 8:
             print("ERROR: DNI inválido. Ingrese solo números, de 7-8 dígitos.")
             continue
 
@@ -38,7 +39,7 @@ def dni_conjuntos():
         dnis.append(dni)
         conjunto = set(dni_input)
         conjuntos.append(conjunto)
-        
+
         # Mostrar el conjunto de dígitos únicos del DNI ingresado
         print(f"Conjunto de dígitos únicos del DNI: {sorted(conjunto)}\n")
 
@@ -51,28 +52,23 @@ def dni_conjuntos():
             break
 
         if len(dnis) >= 2:
-            while True:
-                continuar = input("\n¿Desea ingresar otro DNI? (s/n): ").lower()
-                if continuar in ["s", "si"]:
-                    break
-                elif continuar in ["n", "no"]:
-                    print("\nFinalizando ingreso de DNIs...")
-                    break
-                else:
-                    print("Opción no válida. Ingrese 's/si' o 'n/no'.")
-
+            continuar = input("\n¿Desea ingresar otro DNI? (s/n): ").lower()
+            while continuar not in ["s", "si", "n", "no"]:
+                continuar = input("\nOpción no válida. Ingrese 's/si' o 'n/no': ").lower()
             if continuar in ["n", "no"]:
+                print("\nFinalizando ingreso de DNIs...")
                 break
 
-    # Operaciones entre conjuntos de dígitos
+    # Operaciones
     print("\n------------ Operaciones entre conjuntos ------------")
 
     if len(dnis) == 2:
-        print(f"Conjunto A (DNI:{dnis[0]}): {sorted(conjuntos[0])}")
-        print(f"Conjunto B (DNI:{dnis[1]}): {sorted(conjuntos[1])}")
+        # Si hay exactamente 2 DNIs, se usan directamente
         set1, set2 = conjuntos[0], conjuntos[1]
+        print(f"Conjunto A (DNI:{dnis[0]}): {sorted(set1)}")
+        print(f"Conjunto B (DNI:{dnis[1]}): {sorted(set2)}")
     else:
-        # En caso de más de 2 DNIs, se seleccionan dos DNIs para operar
+        # Permite elegir 2 DNIs entre varios
         print("\nLista de DNIs ingresados:")
         for i, dni in enumerate(dnis):
             print(f"{i + 1}. {dni}")
@@ -88,30 +84,31 @@ def dni_conjuntos():
                 i1 = int(op1) - 1
                 i2 = int(op2) - 1
                 set1, set2 = conjuntos[i1], conjuntos[i2]
-                print(f"\nSeleccionaste DNI {dnis[i1]} y DNI {dnis[i2]}")
+                print(f"\n--- Seleccionaste el DNI {dnis[i1]} y el DNI {dnis[i2]} ---")
                 print(f"Conjunto A (DNI:{dnis[i1]}): {sorted(set1)}")
                 print(f"Conjunto B (DNI:{dnis[i2]}): {sorted(set2)}")
                 break
             else:
-                print("Selección inválida. Intente nuevamente eligiendo dos números distintos y válidos.")
+                print("Selección inválida, elige dos números distintos y válidos. Intente nuevamente.")
 
-    # Operaciones entre los dos conjuntos seleccionados
+    # Operaciones básicas entre dos conjuntos
     print(f"\n • Unión (A ∪ B): {sorted(set1.union(set2))}")
     print(f" • Intersección (A ∩ B): {sorted(set1.intersection(set2))}")
     print(f" • Diferencia (A - B): {sorted(set1.difference(set2))}")
     print(f" • Diferencia (B - A): {sorted(set2.difference(set1))}")
     print(f" • Diferencia simétrica (A △ B): {sorted(set1.symmetric_difference(set2))}")
 
-    # Expresiones lógicas
-    print("\n------------ Evaluaciones adicionales ------------")
-    
+
+    # Expresiones lógicas entre todos los conjuntos
+    print("\n------------ Expresiones lógicas de todos los DNIs ------------")
+
     # Diversidad numérica alta
     diversidad_numerica_alta = True
     for conjunto in conjuntos:
         if len(conjunto) < 5:
             diversidad_numerica_alta = False
             break
-    
+
     if diversidad_numerica_alta:
         print("Diversidad numérica alta")
 
@@ -121,7 +118,7 @@ def dni_conjuntos():
         if "0" in conjunto:
             grupo_sin_cero = False
             break
-    
+
     if grupo_sin_cero:
         print("Grupo sin ceros")
 
@@ -156,21 +153,24 @@ def dni_conjuntos():
     else:
         print("Grupos equilibrados: hay igual cantidad de conjuntos pares e impares.")
 
-    print("\nGracias por usar el programa. ¡Hasta luego!\n")
+    print("\nGracias por usar el programa de operaciones con DNIs. ¡Hasta luego!\n")
+
+
 
 # B. Operaciones con años de nacimiento
 def obtener_anios_nacimiento():
-    """Función para obtener 5 años de nacimiento del usuario."""
+    """Función para obtener hasta 5 años de nacimiento válidos."""
     anios = []
-    cant_de_anios = input("Cuantos años de nacimiento desea ingresar? (máximo 5): ")
+    cant_de_anios = input("\n¿Cuántos años desea ingresar? (máximo 5): ")
 
     # Validación de la cantidad de años
-    if not cant_de_anios.isdigit() or int(cant_de_anios) > 5 or int(cant_de_anios) < 1:
-        print("Número inválido. Se utilizarán 5 años de nacimiento por defecto.")
+    if not cant_de_anios.isdigit() or not 1 <= int(cant_de_anios) <= 5:
+        print("Número inválido. Se usarán 5 años por defecto.")
         cant_de_anios = 5
     else:
         cant_de_anios = int(cant_de_anios)
-    print(f"Ingrese {cant_de_anios} años de nacimiento: ")
+
+    print(f"\nIngrese {cant_de_anios} años de nacimiento: ")
 
     # Bucle para ingresar los años de nacimiento
     while len(anios) < cant_de_anios:
@@ -183,8 +183,8 @@ def obtener_anios_nacimiento():
                 print("Por favor ingrese un año válido (entre 1900 y 2025).")
         except ValueError:
             print("Por favor ingrese un número válido.")
-    
-    print(f"Años ingresados: {anios}")
+
+    print(f"\nAños ingresados: {anios}")
     return anios
 
 
@@ -192,14 +192,15 @@ def contar_pares_impares(anios):
     """Función para contar años pares e impares."""
     pares = 0
     impares = 0
-    
+
     for anio in anios:
         if anio % 2 == 0:
             pares += 1
         else:
             impares += 1
-    
-    print(f"Pares: {pares}, Impares: {impares}")
+
+    print(f"Pares: {pares}")
+    print(f"Impares: {impares}")
     return pares, impares
 
 
@@ -221,11 +222,11 @@ def es_bisiesto(anio):
 def verificar_anios_bisiestos(anios):
     """Función para verificar si hay años bisiestos en la lista."""
     anios_bisiestos = []
-    
+
     for anio in anios:
         if es_bisiesto(anio):
             anios_bisiestos.append(anio)
-    
+
     if anios_bisiestos:
         print(f"Años bisiestos encontrados: {anios_bisiestos}")
         return anios_bisiestos
@@ -234,18 +235,20 @@ def verificar_anios_bisiestos(anios):
         return []
 
 
-def calcular_edades2(anios):
+def calcular_edades(anios):
+    """Función que calcula las edades actuales en base al año."""
     edad_actual = date.today().year
     return [edad_actual - anio for anio in anios]
+
 
 def producto_cartesiano(lista1, lista2):
     """Función para calcular el producto cartesiano entre dos listas."""
     producto = []
-    
+
     for elemento1 in lista1:
         for elemento2 in lista2:
             producto.append((elemento1, elemento2))
-    
+
     return producto
 
 
@@ -254,38 +257,35 @@ def operaciones_anios_nacimiento():
     print("\n" + "="*50)
     print("OPERACIONES CON AÑOS DE NACIMIENTO")
     print("="*50)
-    
+
     # a. Ingreso de los años de nacimiento
     anios = obtener_anios_nacimiento()
-    
+
     # b. Imprimir pares e impares
     print("\n--- Análisis de paridad ---")
     contar_pares_impares(anios)
-    
+
     # c. Verificar Grupo Z
     print("\n--- Verificación Grupo Z ---")
     verificar_grupo_z(anios)
-    
+
     # d. Verificar años bisiestos
     print("\n--- Verificación años bisiestos ---")
     verificar_anios_bisiestos(anios)
-    
+
     # e. Calcular el producto cartesiano entre años y edades
     print("\n--- Cálculo de edades y producto cartesiano ---")
-    # edades = calcular_edades(anios)
-    edades = calcular_edades2(anios)
+    edades = calcular_edades(anios)
     print(f"Edades calculadas: {edades}")
-    
+
     producto = producto_cartesiano(anios, edades)
-    print(f"\nProducto cartesiano (Años × Edades):")
-    print(f"Total de combinaciones: {len(producto)}")
-    
+    print(f"\nProducto cartesiano (Años × Edades): {len(producto)} combinaciones")
+
     # Mostrar algunas combinaciones como ejemplo
     print("Primeras 10 combinaciones:")
-    for i, combinacion in enumerate(producto[:10]):
-        print(f"  {i+1}. Año {combinacion[0]} - Edad {combinacion[1]}")
-    
+    for i, (a, e) in enumerate(producto[:10], 1):
+        print(f"  {i}. Año {a} - Edad {e}")
     if len(producto) > 10:
         print("  ...")
-    
+
     print("\nGracias por usar el programa de años de nacimiento. ¡Hasta luego!\n")
