@@ -238,19 +238,8 @@ def es_bisiesto(anio):
 
 
 def verificar_anios_bisiestos(anios):
-    """Función para verificar si hay años bisiestos en la lista."""
-    anios_bisiestos = []
-
-    for anio in anios:
-        if es_bisiesto(anio):
-            anios_bisiestos.append(anio)
-
-    if anios_bisiestos:
-        print(f"✓ Años bisiestos encontrados: {anios_bisiestos}")
-        return anios_bisiestos
-    else:
-        print("✗ No hay años bisiestos en la lista")
-        return []
+    if any(es_bisiesto(anio) for anio in anios):
+        print("Tenemos un año especial")
 
 
 def calcular_edades(anios):
